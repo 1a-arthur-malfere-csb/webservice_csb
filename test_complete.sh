@@ -142,7 +142,6 @@ print_final_summary() {
     
     if [ $FAILED_TESTS -eq 0 ]; then
         echo -e "${GREEN}🎉 Tous les tests sont passés !${NC}"
-        echo -e "${GREEN}🚀 Votre API de chiffrement et hachage fonctionne parfaitement !${NC}"
         exit 0
     else
         echo -e "${RED}❌ Certains tests ont échoué${NC}"
