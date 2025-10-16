@@ -4,21 +4,25 @@ Ce répertoire contient plusieurs scripts shell pour tester votre microservice P
 
 ## 📋 Scripts Disponibles
 
-### 1. `test_api.sh` - Test Complet
-Script principal qui effectue une suite complète de tests sur tous les endpoints.
+### 1. `test_complete.sh` - Test Complet Unifié ⭐
+Script principal unifié qui effectue une suite complète de tests sur tous les endpoints.
 
 **Fonctionnalités :**
 - ✅ Tests des endpoints de base (/, /users)
 - ✅ Tests de hachage (bcrypt, Argon2, SHA256, HMAC)
-- ✅ Tests de chiffrement/déchiffrement
+- ✅ Tests de chiffrement/déchiffrement de base
+- ✅ Tests de chiffrement avancés (Argon2, RSA)
 - ✅ Tests de génération de clés
+- ✅ Tests de performance et sécurité
 - ✅ Tests de gestion d'erreurs
-- ✅ Affichage coloré des résultats
-- ✅ Statistiques de réussite/échec
+- ✅ Tests de bout en bout
+- ✅ Affichage coloré par sections
+- ✅ Statistiques détaillées par section
+- ✅ Résumé complet final
 
 **Usage :**
 ```bash
-./test_api.sh
+./test_complete.sh
 ```
 
 ### 2. `start_and_test.sh` - Démarrage et Test Automatique
@@ -74,8 +78,8 @@ Script pour tester des endpoints spécifiques individuellement.
 # 1. Démarrer le serveur
 composer start
 
-# 2. Dans un autre terminal, exécuter les tests
-./test_api.sh
+# 2. Dans un autre terminal, exécuter les tests complets
+./test_complete.sh
 ```
 
 ### Option 3 : Test d'un Endpoint Spécifique

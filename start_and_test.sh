@@ -37,8 +37,8 @@ else
         echo ""
         
         # Exécuter les tests
-        echo -e "${GREEN}🧪 Exécution des tests...${NC}"
-        ./test_api.sh
+        echo -e "${GREEN}🧪 Exécution des tests complets...${NC}"
+        ./test_complete.sh
         TEST_RESULT=$?
         
         echo ""

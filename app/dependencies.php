@@ -7,6 +7,11 @@ use App\Domain\Crypto\HashServiceInterface;
 use App\Domain\Crypto\EncryptionServiceInterface;
 use App\Infrastructure\Crypto\HashService;
 use App\Infrastructure\Crypto\EncryptionService;
+use App\Application\Actions\Crypto\EncryptArgon2Action;
+use App\Application\Actions\Crypto\DecryptArgon2Action;
+use App\Application\Actions\Crypto\EncryptHybridAction;
+use App\Application\Actions\Crypto\DecryptHybridAction;
+use App\Application\Actions\Crypto\GenerateRsaKeyPairAction;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -38,6 +43,27 @@ return function (ContainerBuilder $containerBuilder) {
 
         EncryptionServiceInterface::class => function (ContainerInterface $c) {
             return new EncryptionService();
+        },
+
+        // Actions de chiffrement avancées
+        EncryptArgon2Action::class => function (ContainerInterface $c) {
+            return new EncryptArgon2Action($c->get(EncryptionServiceInterface::class));
+        },
+
+        DecryptArgon2Action::class => function (ContainerInterface $c) {
+            return new DecryptArgon2Action($c->get(EncryptionServiceInterface::class));
+        },
+
+        EncryptHybridAction::class => function (ContainerInterface $c) {
+            return new EncryptHybridAction($c->get(EncryptionServiceInterface::class));
+        },
+
+        DecryptHybridAction::class => function (ContainerInterface $c) {
+            return new DecryptHybridAction($c->get(EncryptionServiceInterface::class));
+        },
+
+        GenerateRsaKeyPairAction::class => function (ContainerInterface $c) {
+            return new GenerateRsaKeyPairAction($c->get(EncryptionServiceInterface::class));
         },
     ]);
 };
