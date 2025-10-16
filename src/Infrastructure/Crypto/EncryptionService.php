@@ -117,17 +117,14 @@ class EncryptionService implements EncryptionServiceInterface
         return $decrypted;
     }
 
-    /**
-     * Chiffre des données avec une clé dérivée d'un mot de passe (Argon2)
-     */
     public function encryptWithPasswordArgon2(string $data, string $password, array $options = []): array
     {
-        $memoryCost = $options['memory_cost'] ?? 65536; // 64MB
+        $memoryCost = $options['memory_cost'] ?? 65536;
         $timeCost = $options['time_cost'] ?? 4;
         $threads = $options['threads'] ?? 3;
         
         $salt = random_bytes(32);
-        $key = hash('sha256', $password . $salt); // Simplification pour compatibilité
+        $key = hash('sha256', $password . $salt);
         
         $iv = random_bytes(self::DEFAULT_IV_LENGTH);
         $encrypted = openssl_encrypt($data, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
@@ -148,9 +145,6 @@ class EncryptionService implements EncryptionServiceInterface
         ];
     }
 
-    /**
-     * Déchiffre des données avec une clé dérivée d'un mot de passe (Argon2)
-     */
     public function decryptWithPasswordArgon2(string $encryptedData, string $password, string $salt, string $iv, string $tag, array $options = []): string
     {
         $salt = base64_decode($salt);
@@ -169,23 +163,17 @@ class EncryptionService implements EncryptionServiceInterface
         return $decrypted;
     }
 
-    /**
-     * Chiffre des données avec chiffrement hybride (RSA + AES)
-     */
     public function encryptHybrid(string $data, string $publicKey): array
     {
-        // Générer une clé AES aléatoire
         $aesKey = $this->generateKey(32);
         $iv = $this->generateIv(16);
         
-        // Chiffrer les données avec AES
         $encrypted = openssl_encrypt($data, 'aes-256-gcm', $aesKey, OPENSSL_RAW_DATA, $iv, $tag);
         
         if ($encrypted === false) {
             throw new \RuntimeException('Erreur lors du chiffrement AES');
         }
         
-        // Chiffrer la clé AES avec RSA
         $encryptedKey = '';
         if (!openssl_public_encrypt($aesKey, $encryptedKey, $publicKey)) {
             throw new \RuntimeException('Erreur lors du chiffrement RSA');
@@ -200,18 +188,13 @@ class EncryptionService implements EncryptionServiceInterface
         ];
     }
 
-    /**
-     * Déchiffre des données avec chiffrement hybride (RSA + AES)
-     */
     public function decryptHybrid(string $encryptedData, string $encryptedKey, string $iv, string $tag, string $privateKey): string
     {
-        // Déchiffrer la clé AES avec RSA
         $aesKey = '';
         if (!openssl_private_decrypt(base64_decode($encryptedKey), $aesKey, $privateKey)) {
             throw new \RuntimeException('Erreur lors du déchiffrement RSA');
         }
         
-        // Déchiffrer les données avec AES
         $decrypted = openssl_decrypt(
             base64_decode($encryptedData), 
             'aes-256-gcm', 
@@ -228,9 +211,6 @@ class EncryptionService implements EncryptionServiceInterface
         return $decrypted;
     }
 
-    /**
-     * Génère une paire de clés RSA
-     */
     public function generateRsaKeyPair(int $keySize = 2048): array
     {
         $config = [

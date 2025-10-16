@@ -36,7 +36,6 @@ return function (ContainerBuilder $containerBuilder) {
             return $logger;
         },
 
-        // Services de chiffrement et hachage
         HashServiceInterface::class => function (ContainerInterface $c) {
             return new HashService();
         },
@@ -45,7 +44,6 @@ return function (ContainerBuilder $containerBuilder) {
             return new EncryptionService();
         },
 
-        // Actions de chiffrement avancées
         EncryptArgon2Action::class => function (ContainerInterface $c) {
             return new EncryptArgon2Action($c->get(EncryptionServiceInterface::class));
         },

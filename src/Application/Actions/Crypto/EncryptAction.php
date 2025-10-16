@@ -34,7 +34,6 @@ class EncryptAction
             }
 
             if ($encryptRequest->password !== null) {
-                // Chiffrement avec mot de passe
                 $result = $this->encryptionService->encryptWithPassword(
                     $encryptRequest->data, 
                     $encryptRequest->password, 
@@ -51,7 +50,6 @@ class EncryptAction
                 );
 
             } elseif ($encryptRequest->key !== null) {
-                // Chiffrement avec clé
                 $key = base64_decode($encryptRequest->key);
                 $result = $this->encryptionService->encrypt($encryptRequest->data, $key);
 
@@ -64,7 +62,6 @@ class EncryptAction
                 );
 
             } else {
-                // Génération d'une nouvelle clé
                 $key = $this->encryptionService->generateKey();
                 $result = $this->encryptionService->encrypt($encryptRequest->data, $key);
 

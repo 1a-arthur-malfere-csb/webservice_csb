@@ -16,7 +16,6 @@ class ValidationMiddleware implements Middleware
     {
         $method = $request->getMethod();
         
-        // Ne valider que les requêtes POST et PUT
         if (!in_array($method, ['POST', 'PUT'], true)) {
             return $handler->handle($request);
         }
@@ -39,10 +38,8 @@ class ValidationMiddleware implements Middleware
             throw new HttpBadRequestException($request, 'JSON invalide: ' . json_last_error_msg());
         }
 
-        // Validation des données sensibles
         $this->validateSensitiveData($data, $request);
 
-        // Remettre le corps de la requête pour les handlers suivants
         $request = $request->withParsedBody($data);
 
         return $handler->handle($request);
@@ -50,7 +47,6 @@ class ValidationMiddleware implements Middleware
 
     private function validateSensitiveData(array $data, Request $request): void
     {
-        // Limiter la taille des données
         $maxDataSize = 1024 * 1024; // 1MB
         $dataString = json_encode($data);
         
@@ -58,7 +54,6 @@ class ValidationMiddleware implements Middleware
             throw new HttpBadRequestException($request, 'Les données sont trop volumineuses (max 1MB)');
         }
 
-        // Validation des champs requis selon l'endpoint
         $path = $request->getUri()->getPath();
         
         switch ($path) {
@@ -88,7 +83,6 @@ class ValidationMiddleware implements Middleware
             throw new HttpBadRequestException($request, 'Algorithme non supporté');
         }
 
-        // Pour HMAC, vérifier que la clé est fournie
         if (in_array($data['algorithm'] ?? '', ['hmac-sha256', 'hmac-sha512'], true)) {
             if (empty($data['options']['key'])) {
                 throw new HttpBadRequestException($request, 'La clé est requise pour HMAC');
@@ -114,9 +108,7 @@ class ValidationMiddleware implements Middleware
             throw new HttpBadRequestException($request, 'Le champ "data" est requis');
         }
 
-        // Vérifier qu'au moins une méthode de chiffrement est fournie
         if (empty($data['key']) && empty($data['password'])) {
-            // C'est OK, on générera une clé
         } else {
             if (!empty($data['key']) && !empty($data['password'])) {
                 throw new HttpBadRequestException($request, 'Fournissez soit "key" soit "password", pas les deux');

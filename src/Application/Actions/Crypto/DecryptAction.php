@@ -34,7 +34,6 @@ class DecryptAction
             }
 
             if ($decryptRequest->password !== null) {
-                // Déchiffrement avec mot de passe
                 if (empty($decryptRequest->salt) || empty($decryptRequest->iv) || empty($decryptRequest->tag)) {
                     throw new HttpBadRequestException($request, 'Les champs "salt", "iv" et "tag" sont requis pour le déchiffrement avec mot de passe');
                 }
@@ -54,7 +53,6 @@ class DecryptAction
                 );
 
             } elseif ($decryptRequest->key !== null) {
-                // Déchiffrement avec clé
                 if (empty($decryptRequest->iv) || empty($decryptRequest->tag)) {
                     throw new HttpBadRequestException($request, 'Les champs "iv" et "tag" sont requis pour le déchiffrement avec clé');
                 }

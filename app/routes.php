@@ -21,7 +21,6 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
-        // CORS Pre-Flight OPTIONS Request Handler
         return $response;
     });
 
@@ -50,18 +49,14 @@ return function (App $app) {
         $group->get('/{id}', ViewUserAction::class);
     });
 
-    // API de chiffrement et hachage
     $app->group('/api', function (Group $group) {
-        // Endpoints de hachage
         $group->post('/hash', HashAction::class);
         $group->post('/verify', VerifyAction::class);
         
-        // Endpoints de chiffrement
         $group->post('/encrypt', EncryptAction::class);
         $group->post('/decrypt', DecryptAction::class);
         $group->get('/generate-key', GenerateKeyAction::class);
         
-        // Endpoints de chiffrement avancés
         $group->post('/encrypt-argon2', EncryptArgon2Action::class);
         $group->post('/decrypt-argon2', DecryptArgon2Action::class);
         $group->post('/encrypt-hybrid', EncryptHybridAction::class);
