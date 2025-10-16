@@ -146,11 +146,6 @@ fix: ## Corriger automatiquement le code
 	@composer run-script phpcbf
 	@echo "$(GREEN)✓ Code corrigé$(NC)"
 
-# Documentation
-docs: ## Générer la documentation
-	@echo "$(BLUE)📚 Génération de la documentation...$(NC)"
-	@echo "$(GREEN)✓ Documentation disponible dans les fichiers .md$(NC)"
-
 # Informations sur l'environnement
 info: ## Afficher les informations sur l'environnement
 	@echo "$(BLUE)ℹ️  Informations sur l'environnement$(NC)"
