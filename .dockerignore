@@ -5,10 +5,10 @@
 .gitignore
 .gitattributes
 
-# Documentation
+# Documentation (garder seulement README_FINAL.md)
 *.md
+!README_FINAL.md
 docs/
-README*
 
 # Tests
 tests/
@@ -45,10 +45,13 @@ yarn-error.log*
 .env.local
 .env.*.local
 
-# Docker
-Dockerfile*
-docker-compose*.yml
+# Docker (garder seulement les fichiers nécessaires)
+Dockerfile
+docker-compose.yml
 .dockerignore
+docker-build.sh
+docker-deploy.sh
+nginx.conf
 
 # CI/CD
 .github/
@@ -61,7 +64,7 @@ coverage/
 .coveralls.yml
 clover.xml
 
-# PHP
+# PHP (garder seulement les fichiers de production)
 .php_cs.cache
 .php_cs.dist
 phpcs.xml
@@ -74,3 +77,6 @@ composer.lock.backup
 *.bak
 *.backup
 *.tmp
+
+# Makefile (pas nécessaire dans l'image)
+Makefile
